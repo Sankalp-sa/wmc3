@@ -12,6 +12,7 @@ function App() {
               <li><a href="#">Home</a></li>
               <li><a href="#">About Us</a></li>
               <li><a href="#" id="cu">Contact Us</a></li>
+              <li><a href="#" id="cu">Explore</a></li>
               <div />
             </ul>
             <div className="searchbar">
