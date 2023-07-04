@@ -1,29 +1,20 @@
-import { useState } from 'react'
 import './App.css'
+import { Routes, Route } from "react-router-dom";
+import Explore from './components/Explore.jsx';
+import Home from './components/Home';
+import Books from './components/Elements/Books';
+import Characters from './components/Elements/Characters';
 
 function App() {
+
   return (
     <>
-      <div>
-        <div>
-          <nav className="navbar">
-            <div className="logo"><img src="HogwartsLogo.png" alt /></div>
-            <ul className="navlist">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#" id="cu">Contact Us</a></li>
-              <li><a href="#" id="cu">Explore</a></li>
-              <div />
-            </ul>
-            <div className="searchbar">
-              <input className="search" type="text" id="srch" />
-              <button type="submit" className="srchbtn">Search</button>
-            </div>
-          </nav>
-        </div>
-        <canvas />
-      </div>
-
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/books" element={<Books />} />
+        <Route path="/characters" element={<Characters />} />
+      </Routes>
     </>
   )
 }

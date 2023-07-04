@@ -38,7 +38,7 @@ bgvideo {
   color: aliceblue;
 }
 
-.navbar {
+.my-navbar {
   display: flex;
   align-items: center;
   padding: 2rem;
