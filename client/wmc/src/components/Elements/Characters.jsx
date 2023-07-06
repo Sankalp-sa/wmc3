@@ -7,6 +7,7 @@ export default function Characters() {
 
     const [characters, setCharacters] = useState([]);
     const [page, setPage] = useState(1);
+    const pagesize = 20;
 
     const getCharacters = async () => {
         try {
@@ -48,6 +49,28 @@ export default function Characters() {
                             </div>
                         )
                         )}
+                    </div>
+                    {/* Pagination */}
+                    <div className='d-flex align-items-start justify-content-start fs-3'>
+                        <ul className="pagination justify-content-center">
+                            <li className="page-item">
+                                <a className="page-link" href="#" onClick={() => setPage(page - 1)} aria-label="Previous"
+                                    disabled={page < 1 ? true : false}
+                                >
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li className="page-item"><a className="page-link" href="#" onClick={() => setPage(1)}>1</a></li>
+                            <li className="page-item"><a className="page-link" href="#" onClick={() => setPage(2)}>2</a></li>
+                            <li className="page-item"><a className="page-link" href="#" onClick={() => setPage(3)}>3</a></li>
+                            <li className="page-item">
+                                <a className="page-link" href="#" onClick={() => setPage(page + 1)} aria-label="Next"
+                                    disabled={characters.length < pagesize ? true : false}
+                                >
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

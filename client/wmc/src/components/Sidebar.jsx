@@ -5,11 +5,7 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className="d-flex flex-column flex-shrink-0" style={{ width: '4.5rem' }}>
-                <a href="/" className="d-block p-3 link-dark text-decoration-none" title data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-                    <svg className="bi" width={40} height={32}><use xlinkHref="#bootstrap" /></svg>
-                    <span className="visually-hidden">Icon-only</span>
-                </a>
+            <div className="sidebar" style={{ width: '4.5rem' }}>
                 <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
                     <li>
                         <Link to="/species" className="nav-link py-3 border-bottom">

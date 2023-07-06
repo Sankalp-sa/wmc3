@@ -31,7 +31,7 @@ export default function Books() {
                         {books.map((book) => (
                                 <div key={book.id} className='col-md-4 mb-5'>
                                     <div className="card" style={{ width: '20rem' }}>
-                                        <img src={book.image_url} className="card-img-top" />
+                                        <img src={book.image_url} className="card-img-top"  />
                                         <div className="card-body">
                                             <h5 className="card-title">{book.title}</h5>
                                             <a href="#" className="btn btn-primary">Go somewhere</a>
@@ -44,5 +44,5 @@ export default function Books() {
                 </div>
             </div>
         </div>
-            )
+    )
 }
