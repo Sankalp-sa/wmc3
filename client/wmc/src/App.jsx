@@ -6,6 +6,7 @@ import Books from './components/Elements/Books';
 import Characters from './components/Elements/Characters';
 import all_data from './animation';
 import Species from './components/Elements/Speices';
+import RegistrationForm from './Forms/Registration';
 
 function App() {
 
@@ -17,6 +18,8 @@ function App() {
         <Route path="/books" element={<Books />} />
         <Route path="/characters" element={<Characters />} />
         <Route path="/species" element={<Species />} />
+        <Route path="/register" element={<RegistrationForm />} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </div>
   )
