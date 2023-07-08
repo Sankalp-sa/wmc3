@@ -8,6 +8,7 @@ import all_data from './animation';
 import Species from './components/Elements/Speices';
 import RegistrationForm from './Forms/Registration';
 import { Toaster } from 'react-hot-toast';
+import Login from './Forms/Login';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/characters" element={<Characters />} />
         <Route path="/species" element={<Species />} />
         <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
       <Toaster />
