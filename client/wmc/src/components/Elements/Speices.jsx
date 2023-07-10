@@ -11,9 +11,9 @@ export default function Species() {
 
     const getSpells = async () => {
         try {
-            const res = await axios.get(`https://legacy--api.herokuapp.com/api/v1/species?page=${page}`);
+            const res = await axios.get(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/getSpecies`);
             console.log(res.data);
-            setSpecies(res.data);
+            setSpecies(res.data.species);
 
         } catch (error) {
             console.log(error);
@@ -36,9 +36,9 @@ export default function Species() {
                     {/* Display books in form of cards */}
                     <div className="row">
                         {species.map((sp) => (
-                            <div key={sp.id} className='col-md-4 mb-5'>
+                            <div key={sp._id} className='col-md-4 mb-5'>
                                 <div className="card" style={{ width: '20rem' }}>
-                                    <img src={sp.image_url ? sp.image_url : "https://www.moranyachts.com/wp-content/uploads/2018/04/image_file.png"} className="card-img-top" style={{ minHeight: "400px" }} />
+                                    <img src={sp.image_url} className="card-img-top" />
                                     <div className="card-body">
                                         <h5 className="card-title">{sp.name}</h5>
                                         <a href="#" className="btn btn-primary">Go somewhere</a>
@@ -47,7 +47,6 @@ export default function Species() {
                             </div>
                         ))}
                     </div>
-
                 </div>
             </div>
         </div>

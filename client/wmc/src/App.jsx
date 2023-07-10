@@ -9,6 +9,7 @@ import Species from './components/Elements/Speices';
 import RegistrationForm from './Forms/Registration';
 import { Toaster } from 'react-hot-toast';
 import Login from './Forms/Login';
+import Spells from './components/Elements/Spells';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/books" element={<Books />} />
         <Route path="/characters" element={<Characters />} />
         <Route path="/species" element={<Species />} />
+        <Route path="/spells" element={<Spells />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />

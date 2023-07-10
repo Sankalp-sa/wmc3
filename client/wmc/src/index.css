@@ -48,8 +48,8 @@ bgvideo {
 .my-navbar {
     display: flex;
     align-items: center;
-    padding: 2rem;
-    position: fixed;
+    justify-content: center;
+    /* position: fixed; */
     width: 100%;
 }
 
@@ -57,8 +57,8 @@ bgvideo {
     display: flex;
     align-items: center;
     list-style: none;
-    width: 75%;
-    margin-left: -2rem;
+    width: 100%;
+    margin-top: 1rem;
 }
 
 .navlist li {

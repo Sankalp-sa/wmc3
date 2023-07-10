@@ -23,7 +23,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="my-navbar">
+      <nav className="my-navbar container-fluid sticky-top border border-white p-2">
         <div className="logo"><a href="#home"><img src="HogwartsLogo.png" alt /></a></div>
         <ul className="navlist">
           <li><NavLink to="#">About Us</NavLink></li>
@@ -32,19 +32,17 @@ export default function Navbar() {
           <li><NavLink to="/explore" id="cu">Explore</NavLink></li>
           {!auth.user ? (
             <>
-              <li className="nav-item">
+              <li>
                 <NavLink
                   to="/register"
-                  className="nav-link"
                   aria-current="page"
                 >
                   Register
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li>
                 <NavLink
                   to="/login"
-                  className="nav-link"
                   aria-current="page"
                 >
                   Login
@@ -53,9 +51,8 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <li className="nav-item">
+              <li >
                 <NavLink
-                  className="nav-link"
                   role="button"
                 >
                   {auth?.user?.name}
@@ -65,18 +62,18 @@ export default function Navbar() {
                 <NavLink
                   onClick={handleLogOut}
                   to="/"
-                  className="dropdown-item"
-                  aria-current="page"
                 >
                   Logout
                 </NavLink>
               </li>
             </>
           )}
-          <div className="searchbar">
+          <form class="d-flex searchbar justify-content-end" role="search">
+          {/* <div className="searchbar"> */}
             <input className="search" type="text" id="srch" onClick={() => all_data.myfun01()} />
             <button type="submit" className="srchbtn">Search</button>
-          </div>
+          {/* </div>  */}
+          </form>
         </ul>
       </nav>
     </>
