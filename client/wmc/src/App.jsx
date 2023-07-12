@@ -10,6 +10,7 @@ import RegistrationForm from './Forms/Registration';
 import { Toaster } from 'react-hot-toast';
 import Login from './Forms/Login';
 import Spells from './components/Elements/Spells';
+import Wand from './components/Elements/Wand';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/characters" element={<Characters />} />
         <Route path="/species" element={<Species />} />
         <Route path="/spells" element={<Spells />} />
+        <Route path="/wands" element={<Wand />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {toast} from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 const RegistrationForm = () => {
@@ -10,11 +10,65 @@ const RegistrationForm = () => {
     email: "",
     password: "",
     confirmPassword: ""
-  }); 
+  });
+
+  const [style, setStyle] = useState({
+    nextStyle: {
+      display: "none"
+    },
+    prevStyle: {
+      display: "none"
+    },
+    submitStyle: {
+      display: "none"
+    }
+  });
 
   const navigate = useNavigate();
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  useEffect(() => {
+    if (currentQuestion == 0) {
+      setStyle({
+        ...style,
+        prevStyle: {
+          display: "none"
+        },
+        nextStyle: {
+          display: "inline-block"
+        },
+      });
+    } else if (currentQuestion == qArr.length - 1) {
+
+      setStyle({
+        nextStyle: {
+          display: "none"
+        },
+        prevStyle: {
+          display: "inline-block"
+        },
+        submitStyle: {
+          display: "inline-block"
+        }
+      });
+
+    } else {
+      setStyle({
+        prevStyle: {
+          display: "inline-block"
+        },
+        nextStyle: {
+          display: "inline-block"
+        },
+        submitStyle: {
+          display: "none"
+        }
+      });
+    }
+
+    
+  }, [currentQuestion]);
 
   const qArr = [
     {
@@ -75,28 +129,13 @@ const RegistrationForm = () => {
         setState({
           ...state,
           [qArr[currentQuestion].stateName]: e.target.value,
-        }) 
+        })
       }} />
-      {currentQuestion === 0 ? <button onClick={() => {
-        setCurrentQuestion(currentQuestion + 1);
-      }}>Next</button> :
-        currentQuestion === qArr.length - 1 ? (
-          <>
-            <button onClick={handleSubmit}>Submit</button>
-            <button onClick={() => {
-              setCurrentQuestion(currentQuestion - 1);
-            }}>Back</button>
-          </>
-        ) :
-          <>
-            <button onClick={() => {
-              setCurrentQuestion(currentQuestion + 1);
-            }}>Next</button>
-            <button onClick={() => {
-              setCurrentQuestion(currentQuestion - 1);
-            }}>Back</button>
-          </>
-      }
+      <button style={style.nextStyle} onClick={() => setCurrentQuestion(currentQuestion + 1)}>Next</button>
+      <button style={style.submitStyle} onClick={handleSubmit}>Submit</button>
+      <button style={style.prevStyle} onClick={() => {
+        setCurrentQuestion(currentQuestion - 1);
+      }}>Back</button>
     </div>
   );
 };

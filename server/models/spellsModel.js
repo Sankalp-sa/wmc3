@@ -9,6 +9,7 @@ const spellSchema = new mongoose.Schema(
             contentType: String
         },
         image_url: { type: String, required: true },
+        category: { type: String, required: true },
     }
 );
 

@@ -1,7 +1,8 @@
 import express from 'express';
-import { createSpeciesController, createSpellsController, getSpeciesController, getSpellAudioController, getSpellsController, loginController, registrationController } from '../controllers/userController.js';
+import { createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController } from '../controllers/userController.js';
 
 import ExpressFormidable from "express-formidable";
+
 
 const router = express.Router();
 
@@ -18,8 +19,8 @@ router.post('/register', registrationController);
 router.post('/login', loginController);
 
 // spells routes
-// router.get('/spells', getSpellsController);
 
+// create spells
 router.post('/createSpells', 
 ExpressFormidable(),createSpellsController);
 
@@ -28,5 +29,21 @@ router.get('/spells/:id/audio', getSpellAudioController);
 
 // get spell all spells
 router.get('/spells', getSpellsController);
+
+//Wand routes
+
+// Create Wood
+router.post('/createWood', ExpressFormidable() ,createWoodController);
+
+// Create Core 
+router.post('/createCore', ExpressFormidable() ,createCoreController);
+
+// create wand
+router.post('/createWand', ExpressFormidable(),createWandController);
+
+// get Wand
+router.get('/getWands', getWandsController);
+
+
 
 export default router;
