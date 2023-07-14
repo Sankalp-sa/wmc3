@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import all_data from "../animation";
 
 const RegistrationForm = () => {
 
@@ -131,7 +132,7 @@ const RegistrationForm = () => {
           [qArr[currentQuestion].stateName]: e.target.value,
         })
       }} />
-      <button style={style.nextStyle} onClick={() => setCurrentQuestion(currentQuestion + 1)}>Next</button>
+      <button style={style.nextStyle} onClick={() => all_data.fade0(qArr, currentQuestion, setCurrentQuestion)}>Next</button>
       <button style={style.submitStyle} onClick={handleSubmit}>Submit</button>
       <button style={style.prevStyle} onClick={() => {
         setCurrentQuestion(currentQuestion - 1);

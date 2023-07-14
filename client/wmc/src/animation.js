@@ -35,7 +35,26 @@ function myfun01() {
 
 }
 
+function fade0(qArr, currentQuestion, setCurrentQuestion) {
+    var message = "Hello..." + qArr[currentQuestion].answer;
+    document.getElementById('reghead0').style.animation = "fade-out 3s ease-out forwards";
+    document.getElementById('reghead1').style.animation = "fade-out 3s ease-out forwards";
+    document.getElementById('input01').style.animation = "fade-out 3s ease-out forwards";
+    document.getElementById('nbdiv').style.animation = "fade-out 3s ease-out forwards";
+    setTimeout(function () {
+        document.getElementById('reghead0').textContent = message;
+        document.getElementById('reghead0').style.animation = "fade-in 3s ease-out forwards";
+        document.getElementById('reghead1').style.animation = "fade-in 3s ease-out 3s forwards";
+        document.getElementById('input01').style.animation = "fade-in 3s ease-out 3s forwards";
+        document.getElementById('nbdiv').style.animation = "fade-in 3s ease-out 3s forwards";
+        setCurrentQuestion(currentQuestion + 1);
+        // document.getElementById('nextbut02').style.animation = "fade-in 3s ease-out 3s forwards";
+    }, 4000)
+}
+
+
 export default {
     myfun00,
-    myfun01
+    myfun01,
+    fade0
 };

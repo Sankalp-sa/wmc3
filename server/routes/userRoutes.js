@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController } from '../controllers/userController.js';
+import { createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, getCharacter, getSingleCharacter, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController } from '../controllers/userController.js';
 
 import ExpressFormidable from "express-formidable";
 
@@ -43,6 +43,15 @@ router.post('/createWand', ExpressFormidable(),createWandController);
 
 // get Wand
 router.get('/getWands', getWandsController);
+
+// get single wand
+router.get('/getWand/:id', getSingleWandController);
+
+// get characters
+router.get('/getCharacter', getCharacter);
+
+// get single character
+router.get('/getCharacter/:id', getSingleCharacter);
 
 
 

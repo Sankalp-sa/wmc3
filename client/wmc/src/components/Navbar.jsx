@@ -24,7 +24,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="my-navbar container-fluid sticky-top border border-white p-2">
-        <div className="logo"><a href="#home"><img src="HogwartsLogo.png" alt /></a></div>
+        <div className="logo"><a href="#home"><img src={`http://localhost:5173/Images/HogwartsLogo.png`} alt /></a></div>
         <ul className="navlist">
           <li><NavLink to="#">About Us</NavLink></li>
           <li><NavLink to="#">Home</NavLink></li>

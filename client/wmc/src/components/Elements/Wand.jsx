@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
+import { Link } from 'react-router-dom';
 
 export default function Wand() {
 
@@ -37,16 +38,18 @@ export default function Wand() {
                     {/* Display books in form of cards */}
                     <div className="row">
                         {wand.map((w) => (
-                            <div key={w._id} className='col-md-4 mb-5'>
+                        <Link to={`/wand/${w._id}`} style={{textDecoration: "none"}} className='col-md-4 mb-5'>
+                            <div key={w._id} >
                                 <div className="card" style={{ width: '20rem' }}>
                                     <img src={w.image_url} className="card-img-top" />
                                     <div className="card-body">
-                                        <h5 className="card-title">{w.owner}</h5>
+                                        <h5 className="card-title">{w.owner}+'s wand</h5>
                                         <p className="card-text">{w.description.substring(1, 100) + "..."}</p>
-                                        <a href="#" className="btn btn-primary">Go somewhere</a>
+                                        <Link to={`/wand/${w._id}`} className="btn btn-primary">More Detail</Link>
                                     </div>
                                 </div>
                             </div>
+                        </Link>
                         ))}
                     </div>
                 </div>

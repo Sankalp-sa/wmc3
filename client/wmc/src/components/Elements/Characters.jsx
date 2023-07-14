@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar'
 import Sidebar from '../Sidebar'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Characters() {
 
     const [characters, setCharacters] = useState([]);
     const [page, setPage] = useState(1);
-    const pagesize = 20;
+    const pagesize = 4;
 
     const getCharacters = async () => {
         try {
-            const res = await axios.get(`https://legacy--api.herokuapp.com/api/v1/characters?page=${page}`);
+            const res = await axios.get(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/getCharacter?page=${page}&pagesize=${pagesize}`);
 
             console.log(res.data);
-            setCharacters(res.data);
+            setCharacters(res.data.characters);
 
         } catch (error) {
             console.log(error)
@@ -38,15 +39,17 @@ export default function Characters() {
                     {/* Display books in form of cards */}
                     <div className="row">
                         {characters.map((ch) => (
-                            <div key={ch.id} className='col-md-4 mb-5'>
-                                <div className="card" style={{ width: '20rem' }}>
-                                    <img src={ch.image_url ? ch.image_url : "https://www.moranyachts.com/wp-content/uploads/2018/04/image_file.png"} className="card-img-top" style={{ minHeight: "400px" }} />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{ch.name}</h5>
-                                        <a href="#" className="btn btn-primary">Go somewhere</a>
+                            <Link to={`/characters/${ch._id}`} style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
+                                <div key={ch._id} >
+                                    <div className="card" style={{ width: '20rem' }}>
+                                        <img src={ch.imageUrl} className="card-img-top" style={{ minHeight: "400px" }} />
+                                        <div className="card-body">
+                                            <h5 className="card-title">{ch.name}</h5>
+                                            <a href="#" className="btn btn-primary">More Details</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                         )}
                     </div>
@@ -54,21 +57,21 @@ export default function Characters() {
                     <div className='d-flex align-items-start justify-content-start fs-3'>
                         <ul className="pagination justify-content-center">
                             <li className="page-item">
-                                <a className="page-link" href="#" onClick={() => setPage(page - 1)} aria-label="Previous"
-                                    disabled={page < 1 ? true : false}
+                                <button className="page-link" href="#" onClick={() => setPage(page - 1)} aria-label="Previous"
+                                    disabled={page === 1 ? true : false}
                                 >
                                     <span aria-hidden="true">&laquo;</span>
-                                </a>
+                                </button>
                             </li>
                             <li className="page-item"><a className="page-link" href="#" onClick={() => setPage(1)}>1</a></li>
                             <li className="page-item"><a className="page-link" href="#" onClick={() => setPage(2)}>2</a></li>
                             <li className="page-item"><a className="page-link" href="#" onClick={() => setPage(3)}>3</a></li>
                             <li className="page-item">
-                                <a className="page-link" href="#" onClick={() => setPage(page + 1)} aria-label="Next"
+                                <button className="page-link" href="#" onClick={() => setPage(page + 1)} aria-label="Next"
                                     disabled={characters.length < pagesize ? true : false}
                                 >
                                     <span aria-hidden="true">&raquo;</span>
-                                </a>
+                                </button>
                             </li>
                         </ul>
                     </div>

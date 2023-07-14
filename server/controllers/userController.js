@@ -5,6 +5,7 @@ import spellsModel from "../models/spellsModel.js";
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import { coreModel, wandsModel, woodModel } from "../models/wandsModel.js";
+import characterModel from "../models/characterModel.js";
 
 // registration controller
 export const registrationController = async (req, res) => {
@@ -320,7 +321,7 @@ export const getWandsController = async (req, res) => {
   try {
 
     const wands = await wandsModel.find({}).populate("wood").populate("core");
-    
+
     res.status(200).send({
       success: true,
       message: "Wands fetched successfully",
@@ -332,3 +333,69 @@ export const getWandsController = async (req, res) => {
   }
 }
 
+// get single wand controller
+
+export const getSingleWandController = async (req, res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const wand = await wandsModel.findById(id).populate("wood").populate("core");
+
+    res.status(200).send({
+      success: true,
+      message: "Wand fetched successfully",
+      wand,
+    });
+
+  } catch (error) {
+    console.log(error)
+    res.send(500).json({ message: "Error fetching wand" });
+  }
+}
+
+// getAll characters controller
+export const getCharacter = async (req,res) => {
+
+  try{
+
+    const page = req.query.page || 1;
+    const pageSize = req.query.pageSize || 4;
+
+    const characters = await characterModel.find({}).skip((page - 1) * pageSize).limit(pageSize);
+
+    res.status(200).send({
+      success: true,
+      message: "Characters fetched successfully",
+      characters,
+    });
+  }
+  catch(error){
+    console.log(error);
+    res.send(500).json({ message: "Error fetching characters" });
+  }
+
+}
+
+// get single character controller
+
+export const getSingleCharacter = async (req,res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const character = await characterModel.findById(id);
+
+    res.status(200).send({
+      success: true,
+      message: "Character fetched successfully",
+      character,
+    });
+
+  } catch (error) {
+    console.log(error)
+    res.send(500).json({ message: "Error fetching character" });
+  }
+}
