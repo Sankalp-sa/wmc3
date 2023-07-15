@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, getCharacter, getSingleCharacter, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController } from '../controllers/userController.js';
+import { createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, getCharacter, getSingleCharacter, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
 
 import ExpressFormidable from "express-formidable";
 
@@ -52,6 +52,9 @@ router.get('/getCharacter', getCharacter);
 
 // get single character
 router.get('/getCharacter/:id', getSingleCharacter);
+
+// Search route
+router.get('/search/:keyword', searchController);
 
 
 

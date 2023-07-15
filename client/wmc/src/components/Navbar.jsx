@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { NavLink } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 // import all_data from '../animation';
 import all_data from '../animation';
 import { useAuth } from '../contexts/auth';
@@ -7,6 +8,10 @@ import { useAuth } from '../contexts/auth';
 export default function Navbar() {
 
   const { auth, setAuth } = useAuth();
+
+  const [search, setSearch] = useState();
+
+  const navigate = useNavigate();
 
   function handleLogOut() {
     setAuth({
@@ -19,7 +24,6 @@ export default function Navbar() {
     toast.success("Logout successfully");
     navigate("/login");
   }
-
 
   return (
     <>
@@ -70,8 +74,12 @@ export default function Navbar() {
           )}
           <form class="d-flex searchbar justify-content-end" role="search">
           {/* <div className="searchbar"> */}
-            <input className="search" type="text" id="srch" onClick={() => all_data.myfun01()} />
-            <button type="submit" className="srchbtn">Search</button>
+            <input className="search" type="text" id="srch" onChange={(e) => setSearch(e.target.value)} onClick={() => all_data.myfun01()} />
+            <button type="submit" onClick={
+              () => {
+                navigate(`/search/${search}`);
+              }
+            } className="srchbtn">Search</button>
           {/* </div>  */}
           </form>
         </ul>

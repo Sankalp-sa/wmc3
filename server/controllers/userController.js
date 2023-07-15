@@ -2,12 +2,13 @@ import { comparePassword, hashPassword } from "../helper/helper.js";
 import SpeciesModel from "../models/speciesModel.js";
 import userModel from "../models/userModel.js";
 import spellsModel from "../models/spellsModel.js";
+import characterModel from "../models/characterModel.js";
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import { coreModel, wandsModel, woodModel } from "../models/wandsModel.js";
-import characterModel from "../models/characterModel.js";
 
 // registration controller
+
 export const registrationController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -235,19 +236,18 @@ export const getSpellsController = async (req, res) => {
 // Create wood Controller
 
 export const createWoodController = async (req, res) => {
-
   try {
-    const {name , description , image_url, binomialName} = req.fields;
+    const { name, description, image_url, binomialName } = req.fields;
 
     console.log(req.body);
-  
+
     const newWood = await woodModel({
       name,
       description,
       image_url,
-      binomialName
+      binomialName,
     }).save();
-  
+
     res.status(201).send({
       success: true,
       message: "Wood created successfully",
@@ -257,69 +257,59 @@ export const createWoodController = async (req, res) => {
     console.log(error);
     res.status(500).json({ message: "Error creating wood" });
   }
-  
-}
+};
 
 // Create core controller
 export const createCoreController = async (req, res) => {
-
   try {
-    const {name , description , image_url} = req.fields;
-  
+    const { name, description, image_url } = req.fields;
+
     const newCore = await coreModel({
       name,
       description,
-      image_url
+      image_url,
     }).save();
-  
+
     res.status(201).send({
       success: true,
       message: "Core created successfully",
       data: newCore,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: "Error creating core" });
   }
-
-
-}
+};
 
 // Create wand controller
 
 export const createWandController = async (req, res) => {
-
   try {
-    
-    const {owner , description , image_url , wood , core, length} = req.fields;
-  
+    const { owner, description, image_url, wood, core, length } = req.fields;
+
     const newWand = await wandsModel({
       owner,
       description,
       image_url,
       wood,
       core,
-      length
+      length,
     }).save();
-  
+
     res.status(201).send({
       success: true,
       message: "Wand created successfully",
       data: newWand,
     });
-
   } catch (error) {
-    
     res.status(500).json({ message: "Error creating wand" });
   }
-}
+};
 
 // get wands controller
 
 export const getWandsController = async (req, res) => {
-
   try {
-
     const wands = await wandsModel.find({}).populate("wood").populate("core");
 
     res.status(200).send({
@@ -327,64 +317,60 @@ export const getWandsController = async (req, res) => {
       message: "Wands fetched successfully",
       wands,
     });
-    
   } catch (error) {
     res.send(500).json({ message: "Error fetching wands" });
   }
-}
+};
 
 // get single wand controller
 
 export const getSingleWandController = async (req, res) => {
-
   try {
-    
-    const {id} = req.params;
+    const { id } = req.params;
 
-    const wand = await wandsModel.findById(id).populate("wood").populate("core");
+    const wand = await wandsModel
+      .findById(id)
+      .populate("wood")
+      .populate("core");
 
     res.status(200).send({
       success: true,
       message: "Wand fetched successfully",
       wand,
     });
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send(500).json({ message: "Error fetching wand" });
   }
-}
+};
 
 // getAll characters controller
-export const getCharacter = async (req,res) => {
-
-  try{
-
+export const getCharacter = async (req, res) => {
+  try {
     const page = req.query.page || 1;
     const pageSize = req.query.pageSize || 4;
 
-    const characters = await characterModel.find({}).skip((page - 1) * pageSize).limit(pageSize);
+    const characters = await characterModel
+      .find({})
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
 
     res.status(200).send({
       success: true,
       message: "Characters fetched successfully",
       characters,
     });
-  }
-  catch(error){
+  } catch (error) {
     console.log(error);
     res.send(500).json({ message: "Error fetching characters" });
   }
-
-}
+};
 
 // get single character controller
 
-export const getSingleCharacter = async (req,res) => {
-
+export const getSingleCharacter = async (req, res) => {
   try {
-    
-    const {id} = req.params;
+    const { id } = req.params;
 
     const character = await characterModel.findById(id);
 
@@ -393,9 +379,66 @@ export const getSingleCharacter = async (req,res) => {
       message: "Character fetched successfully",
       character,
     });
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send(500).json({ message: "Error fetching character" });
   }
-}
+};
+
+// search controller
+
+export const searchController = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+
+    const character = await characterModel.find({
+      $or: [
+        { name: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    });
+
+    const wand = await wandsModel.find({
+      $or: [
+        {
+          owner: { $regex: keyword, $options: "i" },
+        },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    });
+
+    const spell = await spellsModel.find({
+      $or: [
+        {
+          name: { $regex: keyword, $options: "i" },
+        },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    });
+
+    const species = await SpeciesModel.find({
+      $or: [
+        {
+          name: { $regex: keyword, $options: "i" },
+        },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    });
+
+    res.status(200).send({
+      success: true,
+      message: "Search results",
+      data: {
+        character,
+        wand,
+        spell,
+        species,
+      },
+    });
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "Error fetching characters",
+    });
+  }
+};

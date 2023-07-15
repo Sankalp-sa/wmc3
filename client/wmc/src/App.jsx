@@ -13,6 +13,7 @@ import Spells from './components/Elements/Spells';
 import Wand from './components/Elements/Wand';
 import WandDetail from './components/Details/WandDetail';
 import CharacterDetail from './components/Details/CharacterDetail.jsx';
+import Search from './components/Search';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/wand/:id" element={<WandDetail />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/search/:keyword" element={<Search />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
       <Toaster />
