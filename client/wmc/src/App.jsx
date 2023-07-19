@@ -14,6 +14,8 @@ import Wand from './components/Elements/Wand';
 import WandDetail from './components/Details/WandDetail';
 import CharacterDetail from './components/Details/CharacterDetail.jsx';
 import Search from './components/Search';
+import Favorite from './components/Favorite';
+import PrivateRoute from './Routes/Private';
 
 function App() {
 
@@ -32,8 +34,11 @@ function App() {
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search/:keyword" element={<Search />} />
+        <Route path="/users" element={<PrivateRoute />} >
+          <Route path="favorite" element={<Favorite />} />
+        </Route>
         <Route path="*" element={<h1>404 Not Found</h1>} />
-      </Routes>
+      </Routes >
       <Toaster />
     </div>
   )

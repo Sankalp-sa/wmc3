@@ -3,12 +3,16 @@ import Navbar from '../Navbar'
 import Sidebar from '../Sidebar'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useAuth } from '../../contexts/auth';
 
 export default function Characters() {
 
     const [characters, setCharacters] = useState([]);
     const [page, setPage] = useState(1);
     const pagesize = 4;
+
+    const {auth} = useAuth();
 
     const getCharacters = async () => {
         try {
@@ -26,6 +30,29 @@ export default function Characters() {
         getCharacters();
     }, [page])
 
+    const handleFavorite = async (id) => {
+        try{
+            if(auth){
+                const res = await axios.post(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/addFavorite/${id}`);
+
+                if(res.data.success === true){
+                    toast.success("Added to Favorite!");
+                }
+                
+                if(res.data.success === false){
+                    toast.error("Already in Favorite!");
+                }
+            }
+            else{
+                toast.error("Please login first!");
+            }
+            
+        }
+        catch(error){
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    }
 
     return (
         <div>
@@ -45,7 +72,11 @@ export default function Characters() {
                                         <img src={ch.imageUrl} className="card-img-top" style={{ minHeight: "400px" }} />
                                         <div className="card-body">
                                             <h5 className="card-title">{ch.name}</h5>
-                                            <a href="#" className="btn btn-primary">More Details</a>
+                                            <button className="btn btn-primary" onClick={(e) => {
+                                            e.preventDefault();
+                                            handleFavorite(ch._id);
+                                        }}>Add to Favorite</button>
+                                            <Link to={`/characters/${ch._id}`} className="btn btn-primary">More Details</Link>
                                         </div>
                                     </div>
                                 </div>

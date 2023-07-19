@@ -3,10 +3,14 @@ import axios from 'axios';
 import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useAuth } from '../../contexts/auth';
 
 export default function Wand() {
 
     const [wand, setWand] = useState([]);
+
+    const { auth } = useAuth();
 
     const getWands = async () => {
 
@@ -25,6 +29,30 @@ export default function Wand() {
     useEffect(() => {
         getWands();
     }, [])
+
+    const handleFavorite = async (id) => {
+        try{
+            if(auth){
+                const res = await axios.post(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/addFavorite/${id}`);
+
+                if(res.data.success === true){
+                    toast.success("Added to Favorite!");
+                }
+                
+                if(res.data.success === false){
+                    toast.error("Already in Favorite!");
+                }
+            }
+            else{
+                toast.error("Please login first!");
+            }
+            
+        }
+        catch(error){
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    }
 
     return (
         <div>
@@ -45,6 +73,10 @@ export default function Wand() {
                                     <div className="card-body">
                                         <h5 className="card-title">{w.owner}+'s wand</h5>
                                         <p className="card-text">{w.description.substring(1, 100) + "..."}</p>
+                                        <button className="btn btn-primary" onClick={(e) => {
+                                            e.preventDefault();
+                                            handleFavorite(w._id);
+                                        }}>Add to Favorite</button>
                                         <Link to={`/wand/${w._id}`} className="btn btn-primary">More Detail</Link>
                                     </div>
                                 </div>
@@ -54,6 +86,7 @@ export default function Wand() {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }

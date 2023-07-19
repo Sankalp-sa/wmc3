@@ -1,15 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState , useEffect} from 'react'
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 // import all_data from '../animation';
 import all_data from '../animation';
 import { useAuth } from '../contexts/auth';
+import StarIcon from '@mui/icons-material/Star';
+import Badge from '@mui/material/Badge';
+import axios from 'axios';
 
 export default function Navbar() {
 
   const { auth, setAuth } = useAuth();
 
   const [search, setSearch] = useState();
+
+  const [favoriteCount, setFavoriteCount] = useState(0);
 
   const navigate = useNavigate();
 
@@ -24,6 +29,25 @@ export default function Navbar() {
     toast.success("Logout successfully");
     navigate("/login");
   }
+
+  const getFavoriteCount = async () => {
+
+    try {
+
+      const res = await axios.get(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/getFavoriteCount`);
+
+      console.log(res.data);
+      setFavoriteCount(res.data.favoriteCount);
+      
+    } catch (error) {
+      
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getFavoriteCount();
+  }, [])
 
   return (
     <>
@@ -82,6 +106,11 @@ export default function Navbar() {
             } className="srchbtn">Search</button>
           {/* </div>  */}
           </form>
+          <li>
+          <Badge badgeContent={favoriteCount} color="primary">
+            <NavLink to="/users/favorite"><StarIcon fontSize='large'/></NavLink>
+          </Badge>
+          </li>
         </ul>
       </nav>
     </>

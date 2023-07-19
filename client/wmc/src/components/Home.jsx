@@ -1,16 +1,16 @@
 import React from 'react'
 import Navbar from './Navbar'
-import Sidebar from './Sidebar'
+import { useAuth } from '../contexts/auth'
 
 export default function Home() {
+
+  const { auth } = useAuth();
+
+  console.log(auth)
+
   return (
     <>
       <Navbar />
-      <div className="row">
-        <div className="col-md-2">  
-          <Sidebar />
-        </div>
-      </div>
     </>
   )
 }

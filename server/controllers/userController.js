@@ -6,6 +6,7 @@ import characterModel from "../models/characterModel.js";
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import { coreModel, wandsModel, woodModel } from "../models/wandsModel.js";
+import FavoriteModel from "../models/favoriteModel.js";
 
 // registration controller
 
@@ -442,3 +443,276 @@ export const searchController = async (req, res) => {
     });
   }
 };
+
+// Add to favorites controller
+
+export const addToFavoritesController = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const character = await characterModel.findById(id);
+    const species = await SpeciesModel.findById(id);
+    const wand = await wandsModel.findById(id);
+    const spell = await spellsModel.findById(id);
+
+    const faviorate = await FavoriteModel.findOne({ user: req.user._id });
+
+    if (faviorate) {
+      const isCharacter = await faviorate.characters.find((item) =>
+        item !== null ? item.toString() === id : null
+      );
+
+      const isSpecies = await faviorate.species.find((item) =>
+        item !== null ? item.toString() === id : null
+      );
+
+      const isWand = await faviorate.wand.find((item) =>
+        item !== null ? item.toString() === id : null
+      );
+
+      const isSpell = await faviorate.spells.find((item) =>
+        item !== null ? item.toString() === id : null
+      );
+
+      if (isCharacter || isSpecies || isWand || isSpell) {
+        res.status(500).send({
+          success: false,
+          message: "Already added to favorites",
+        });
+      } else {
+
+        let data = null;
+
+        if (character !== null) {
+          const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+            faviorate._id,
+            {
+              $push: {
+                "characters": character,
+              },
+            },
+            { new: true }
+          );
+
+          data = updatedFavorite;
+        }
+
+        if (species !== null) {
+          const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+            faviorate._id,
+            {
+              $push: {
+                "species": species,
+              },
+            },
+            { new: true }
+          );
+
+          data = updatedFavorite;
+        }
+
+        if (wand !== null) {
+          const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+            faviorate._id,
+            {
+              $push: {
+                "wand": wand,
+              },
+            },
+            { new: true }
+          );
+
+          data = updatedFavorite;
+        }
+
+        if (spell !== null) {
+          const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+            faviorate._id,
+            {
+              $push: {
+                "spells": spell,
+              },
+            },
+            { new: true }
+          );
+
+          data = updatedFavorite;
+        }
+
+        res.status(201).send({
+          success: true,
+          message: "Added to favorites successfully",
+          data: data,
+        });
+      }
+    } else {
+      const newFavorite = await FavoriteModel({
+        user: req.user._id,
+        favorites: {
+          character: character,
+          species: species,
+          wand: wand,
+          spell: spell,
+        },
+      }).save();
+
+      res.status(201).send({
+        success: true,
+        message: "Added to favorites successfully",
+        data: newFavorite,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error adding to favorites" });
+  }
+};
+
+// get favorites controller
+
+export const getFavoritesController = async (req, res) => {
+
+  try {
+    
+    console.log(req.user);
+    const favorites = await FavoriteModel.findOne({ user: req.user._id }).populate("characters").populate("species").populate("wand").populate("spells");
+
+    res.status(200).send({
+      success: true,
+      message: "Favorites fetched successfully",
+      favorites,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.send(500).json({ message: "Error fetching favorites" });
+  }
+}
+
+// delete from favorites controller
+
+export const deleteFromFavoritesController = async (req, res) => {
+
+  const { id } = req.params;
+
+  try{
+
+    const favorites = await FavoriteModel.findOne({ user: req.user._id });
+
+    const isCharacter = await favorites.characters.find((item) =>
+      item !== null ? item.toString() === id : null
+    );
+
+    const isSpecies = await favorites.species.find((item) =>
+      item !== null ? item.toString() === id : null
+    );
+
+    const isWand = await favorites.wand.find((item) =>
+      item !== null ? item.toString() === id : null
+    );
+
+    const isSpell = await favorites.spells.find((item) =>
+      item !== null ? item.toString() === id : null
+    );
+
+    if(isCharacter){
+      const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+        favorites._id,
+        {
+          $pull: {
+            "characters": id,
+          },
+        },
+        { new: true }
+      );
+
+      res.status(201).send({
+        success: true,
+        message: "Deleted from favorites successfully",
+        data: updatedFavorite,
+      });
+    }
+
+    if(isSpecies){
+      const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+        favorites._id,
+        {
+          $pull: {
+            "species": id,
+          },
+        },
+        { new: true }
+      );
+
+      res.status(201).send({
+        success: true,
+        message: "Deleted from favorites successfully",
+        data: updatedFavorite,
+      });
+    }
+
+    if(isWand){
+      const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+        favorites._id,
+        {
+          $pull: {
+            "wand": id,
+          },
+        },
+        { new: true }
+      );
+
+      res.status(201).send({
+        success: true,
+        message: "Deleted from favorites successfully",
+        data: updatedFavorite,
+      });
+    }
+
+    if(isSpell){
+      const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
+        favorites._id,
+        {
+          $pull: {
+            "spells": id,
+          },
+        },
+        { new: true }
+      );
+
+      res.status(201).send({
+        success: true,
+        message: "Deleted from favorites successfully",
+        data: updatedFavorite,
+      });
+    }
+
+  }
+  catch{
+    console.log(error);
+    res.send(500).json({ message: "Error deleting from favorites" });
+  }
+}
+
+// get Favorite count controller
+
+export const getFavoriteCountController = async (req, res) => {
+
+  try {
+
+    const favorite = await FavoriteModel.findOne({ user: req.user._id });
+
+    const favoriteCount = favorite.characters.length + favorite.species.length + favorite.wand.length + favorite.spells.length;
+
+    res.status(200).send({
+      success: true,
+      message: "Favorites count fetched successfully",
+      favoriteCount,
+    });
+    
+  } catch (error) {
+    console.log(error);
+    res.send(500).json({ message: "Error fetching favorites count" });
+  }
+
+}

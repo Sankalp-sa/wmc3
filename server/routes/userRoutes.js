@@ -1,7 +1,8 @@
 import express from 'express';
-import { createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, getCharacter, getSingleCharacter, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
+import { addToFavoritesController, createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, deleteFromFavoritesController, getCharacter, getFavoriteCountController, getFavoritesController, getSingleCharacter, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
 
 import ExpressFormidable from "express-formidable";
+import { requireSignIn } from '../Middleware.js/authMiddleware.js';
 
 
 const router = express.Router();
@@ -56,6 +57,21 @@ router.get('/getCharacter/:id', getSingleCharacter);
 // Search route
 router.get('/search/:keyword', searchController);
 
+// Add to favorite
+router.post('/addFavorite/:id', requireSignIn , addToFavoritesController);
 
+// get all favorites
+router.get('/getFavorites', requireSignIn ,getFavoritesController);
+
+// get favorite count
+router.get('/getFavoriteCount', requireSignIn , getFavoriteCountController);
+
+// delete favorite
+router.delete('/deleteFavorite/:id', requireSignIn ,deleteFromFavoritesController);
+
+// protected route
+router.get('/protected', requireSignIn, (req, res) => {
+    res.status(200).send({ok: true});
+});
 
 export default router;
