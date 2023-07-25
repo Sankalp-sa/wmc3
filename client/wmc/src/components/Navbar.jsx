@@ -34,10 +34,11 @@ export default function Navbar() {
 
     try {
 
-      const res = await axios.get(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/getFavoriteCount`);
-
-      console.log(res.data);
-      setFavoriteCount(res.data.favoriteCount);
+      if(auth?.user){
+        const res = await axios.get(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/getFavoriteCount`);
+        console.log(res.data);
+        setFavoriteCount(res.data.favoriteCount);
+      }
       
     } catch (error) {
       

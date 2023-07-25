@@ -16,6 +16,7 @@ import CharacterDetail from './components/Details/CharacterDetail.jsx';
 import Search from './components/Search';
 import Favorite from './components/Favorite';
 import PrivateRoute from './Routes/Private';
+import SpellsDetails from './components/Details/SpellsDetails';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/characters/:id" element={<CharacterDetail />} />
         <Route path="/species" element={<Species />} />
         <Route path="/spells" element={<Spells />} />
+        <Route path="/spells/:id" element={<SpellsDetails />} />
         <Route path="/wands" element={<Wand />} />
         <Route path="/wand/:id" element={<WandDetail />} />
         <Route path="/register" element={<RegistrationForm />} />

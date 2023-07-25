@@ -4,6 +4,7 @@ import Sidebar from '../Sidebar';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../contexts/auth';
+import { Link } from 'react-router-dom';
 
 export default function Spells() {
 
@@ -64,7 +65,8 @@ export default function Spells() {
                     <h1 className='mb-5'>Spells</h1>
                     <div className='row gap-3'>
                         {spells.map((sp) => (
-                            <div className="col-md-4">
+                            <Link to={`/spells/${sp._id}`} className="col-md-4 text-decoration-none" >
+                            <div>
                                 <div className="card" style={{ width: '20rem' }}>
                                     <img src={sp.image_url} className="card-img-top" alt="..." />
                                     <div className="card-body">
@@ -82,6 +84,7 @@ export default function Spells() {
                                     </div>
                                 </div>
                             </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

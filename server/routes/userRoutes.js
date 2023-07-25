@@ -1,5 +1,5 @@
 import express from 'express';
-import { addToFavoritesController, createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, deleteFromFavoritesController, getCharacter, getFavoriteCountController, getFavoritesController, getSingleCharacter, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
+import { addToFavoritesController, createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, deleteFromFavoritesController, getCharacter, getFavoriteCountController, getFavoritesController, getSingleCharacter, getSingleSpellsController, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
 
 import ExpressFormidable from "express-formidable";
 import { requireSignIn } from '../Middleware.js/authMiddleware.js';
@@ -31,6 +31,9 @@ router.get('/spells/:id/audio', getSpellAudioController);
 // get spell all spells
 router.get('/spells', getSpellsController);
 
+// get single spell
+router.get('/singleSpell/:id', getSingleSpellsController);
+    
 //Wand routes
 
 // Create Wood
@@ -58,13 +61,13 @@ router.get('/getCharacter/:id', getSingleCharacter);
 router.get('/search/:keyword', searchController);
 
 // Add to favorite
-router.post('/addFavorite/:id', requireSignIn , addToFavoritesController);
+router.post('/addFavorite/:id', requireSignIn, addToFavoritesController);
 
 // get all favorites
-router.get('/getFavorites', requireSignIn ,getFavoritesController);
+router.get('/getFavorites', requireSignIn, getFavoritesController);
 
 // get favorite count
-router.get('/getFavoriteCount', requireSignIn , getFavoriteCountController);
+router.get('/getFavoriteCount', requireSignIn, getFavoriteCountController);
 
 // delete favorite
 router.delete('/deleteFavorite/:id', requireSignIn ,deleteFromFavoritesController);

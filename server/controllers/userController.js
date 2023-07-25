@@ -192,6 +192,27 @@ export const createSpellsController = async (req, res) => {
   }
 };
 
+// get single spell controller
+
+export const getSingleSpellsController = async (req, res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const spell = await spellsModel.findById(id).select("-audio");
+
+    res.status(200).send({
+      success: true,
+      message: "Spell fetched successfully",
+      spell,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching spell" });
+  }
+}
+
 // get spells audio controller
 
 export const getSpellAudioController = async (req, res) => {
@@ -716,3 +737,4 @@ export const getFavoriteCountController = async (req, res) => {
   }
 
 }
+
