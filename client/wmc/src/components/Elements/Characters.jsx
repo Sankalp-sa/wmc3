@@ -32,7 +32,7 @@ export default function Characters() {
 
     const handleFavorite = async (id) => {
         try{
-            if(auth){
+            if(auth?.user){
                 const res = await axios.post(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/addFavorite/${id}`);
 
                 if(res.data.success === true){

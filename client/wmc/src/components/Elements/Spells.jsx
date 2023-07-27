@@ -30,7 +30,6 @@ export default function Spells() {
         try{
             if(auth){
                 const res = await axios.post(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/addFavorite/${id}`);
-
                 if(res.data.success === true){
                     toast.success("Added to Favorite!");
                 }
@@ -42,11 +41,10 @@ export default function Spells() {
             else{
                 toast.error("Please login first!");
             }
-            
         }
         catch(error){
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error("Please login first!");
         }
     }
 

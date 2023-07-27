@@ -7,6 +7,7 @@ import fs from "fs";
 import jwt from "jsonwebtoken";
 import { coreModel, wandsModel, woodModel } from "../models/wandsModel.js";
 import FavoriteModel from "../models/favoriteModel.js";
+import CommentModel from "../models/CommentModel.js";
 
 // registration controller
 
@@ -195,10 +196,8 @@ export const createSpellsController = async (req, res) => {
 // get single spell controller
 
 export const getSingleSpellsController = async (req, res) => {
-
   try {
-    
-    const {id} = req.params;
+    const { id } = req.params;
 
     const spell = await spellsModel.findById(id).select("-audio");
 
@@ -211,7 +210,7 @@ export const getSingleSpellsController = async (req, res) => {
     console.log(error);
     res.status(500).json({ message: "Error fetching spell" });
   }
-}
+};
 
 // get spells audio controller
 
@@ -340,7 +339,7 @@ export const getWandsController = async (req, res) => {
       wands,
     });
   } catch (error) {
-    res.send(500).json({ message: "Error fetching wands" });
+    res.status(500).json({ message: "Error fetching wands" });
   }
 };
 
@@ -362,7 +361,7 @@ export const getSingleWandController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.send(500).json({ message: "Error fetching wand" });
+    res.status(500).json({ message: "Error fetching wand" });
   }
 };
 
@@ -384,7 +383,7 @@ export const getCharacter = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.send(500).json({ message: "Error fetching characters" });
+    res.status(500).json({ message: "Error fetching characters" });
   }
 };
 
@@ -403,7 +402,7 @@ export const getSingleCharacter = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.send(500).json({ message: "Error fetching character" });
+    res.status(500).json({ message: "Error fetching character" });
   }
 };
 
@@ -501,7 +500,6 @@ export const addToFavoritesController = async (req, res) => {
           message: "Already added to favorites",
         });
       } else {
-
         let data = null;
 
         if (character !== null) {
@@ -509,7 +507,7 @@ export const addToFavoritesController = async (req, res) => {
             faviorate._id,
             {
               $push: {
-                "characters": character,
+                characters: character,
               },
             },
             { new: true }
@@ -523,7 +521,7 @@ export const addToFavoritesController = async (req, res) => {
             faviorate._id,
             {
               $push: {
-                "species": species,
+                species: species,
               },
             },
             { new: true }
@@ -537,7 +535,7 @@ export const addToFavoritesController = async (req, res) => {
             faviorate._id,
             {
               $push: {
-                "wand": wand,
+                wand: wand,
               },
             },
             { new: true }
@@ -551,7 +549,7 @@ export const addToFavoritesController = async (req, res) => {
             faviorate._id,
             {
               $push: {
-                "spells": spell,
+                spells: spell,
               },
             },
             { new: true }
@@ -592,32 +590,31 @@ export const addToFavoritesController = async (req, res) => {
 // get favorites controller
 
 export const getFavoritesController = async (req, res) => {
-
   try {
-    
     console.log(req.user);
-    const favorites = await FavoriteModel.findOne({ user: req.user._id }).populate("characters").populate("species").populate("wand").populate("spells");
+    const favorites = await FavoriteModel.findOne({ user: req.user._id })
+      .populate("characters")
+      .populate("species")
+      .populate("wand")
+      .populate("spells");
 
     res.status(200).send({
       success: true,
       message: "Favorites fetched successfully",
       favorites,
     });
-
   } catch (error) {
     console.log(error);
-    res.send(500).json({ message: "Error fetching favorites" });
+    res.status(500).json({ message: "Error fetching favorites" });
   }
-}
+};
 
 // delete from favorites controller
 
 export const deleteFromFavoritesController = async (req, res) => {
-
   const { id } = req.params;
 
-  try{
-
+  try {
     const favorites = await FavoriteModel.findOne({ user: req.user._id });
 
     const isCharacter = await favorites.characters.find((item) =>
@@ -636,12 +633,12 @@ export const deleteFromFavoritesController = async (req, res) => {
       item !== null ? item.toString() === id : null
     );
 
-    if(isCharacter){
+    if (isCharacter) {
       const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
         favorites._id,
         {
           $pull: {
-            "characters": id,
+            characters: id,
           },
         },
         { new: true }
@@ -654,12 +651,12 @@ export const deleteFromFavoritesController = async (req, res) => {
       });
     }
 
-    if(isSpecies){
+    if (isSpecies) {
       const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
         favorites._id,
         {
           $pull: {
-            "species": id,
+            species: id,
           },
         },
         { new: true }
@@ -672,12 +669,12 @@ export const deleteFromFavoritesController = async (req, res) => {
       });
     }
 
-    if(isWand){
+    if (isWand) {
       const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
         favorites._id,
         {
           $pull: {
-            "wand": id,
+            wand: id,
           },
         },
         { new: true }
@@ -690,12 +687,12 @@ export const deleteFromFavoritesController = async (req, res) => {
       });
     }
 
-    if(isSpell){
+    if (isSpell) {
       const updatedFavorite = await FavoriteModel.findByIdAndUpdate(
         favorites._id,
         {
           $pull: {
-            "spells": id,
+            spells: id,
           },
         },
         { new: true }
@@ -707,34 +704,130 @@ export const deleteFromFavoritesController = async (req, res) => {
         data: updatedFavorite,
       });
     }
-
-  }
-  catch{
+  } catch {
     console.log(error);
-    res.send(500).json({ message: "Error deleting from favorites" });
+    res.status(500).json({ message: "Error deleting from favorites" });
   }
-}
+};
 
 // get Favorite count controller
 
 export const getFavoriteCountController = async (req, res) => {
-
   try {
-
     const favorite = await FavoriteModel.findOne({ user: req.user._id });
 
-    const favoriteCount = favorite.characters.length + favorite.species.length + favorite.wand.length + favorite.spells.length;
+    const favoriteCount =
+      favorite.characters.length +
+      favorite.species.length +
+      favorite.wand.length +
+      favorite.spells.length;
 
     res.status(200).send({
       success: true,
       message: "Favorites count fetched successfully",
       favoriteCount,
     });
-    
   } catch (error) {
     console.log(error);
-    res.send(500).json({ message: "Error fetching favorites count" });
+    res.status(500).json({ message: "Error fetching favorites count" });
   }
+};
 
+// Add comment controller
+
+export const addCommentController = async (req, res) => {
+  
+  try {
+
+    const { id } = req.params;
+    // console.log(req.body)
+    const { comment } = req.body;
+
+    const species = await SpeciesModel.countDocuments({_id: id});
+    const wand = await wandsModel.countDocuments({_id: id});
+    const spell = await spellsModel.countDocuments({_id: id});
+    const character = await characterModel.countDocuments({_id: id});
+
+    // console.log(species);
+    
+    let newComment = null;
+    if (species > 0) {
+      newComment = await CommentModel({
+        user: req.user._id,
+        species: id,
+        comment,
+      }).save();
+    }
+    else if (wand > 0) {
+      newComment = await CommentModel({
+        user: req.user._id,
+        wand: id,
+        comment,
+      }).save();
+    }
+    else if (spell > 0) {
+      newComment = await CommentModel({
+        user: req.user._id,
+        spell: id,
+        comment,
+      }).save();
+    }
+    else if (character > 0) {
+      newComment = await CommentModel({
+        user: req.user._id,
+        character: id,
+        comment,
+      }).save();
+    }
+
+    if(newComment){
+      res.status(201).send({
+        success: true,
+        message: "Comment added successfully",
+        data: newComment,
+      });
+    }
+    else{
+      res.status(500).send({
+        success: false,
+        message: "Error adding comment",
+      });
+    }
+
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error adding comment", error });
+  }
+};
+
+// get comment controller
+
+export const getCommentController = async (req, res) => {
+
+  const { id } = req.params;
+
+  try {
+    const species = await CommentModel.find({ species: id }).populate("user");
+
+    const wand = await CommentModel.find({ wand: id }).populate("user");
+
+    const spell = await CommentModel.find({ spell: id }).populate("user");
+
+    const character = await CommentModel.find({ character: id }).populate("user");
+
+    res.status(200).send({
+      success: true,
+      message: "Comments fetched successfully",
+      data: {
+        species,
+        wand,
+        spell,
+        character
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching comments" });
+  }
 }
-

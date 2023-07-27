@@ -1,5 +1,5 @@
 import express from 'express';
-import { addToFavoritesController, createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, deleteFromFavoritesController, getCharacter, getFavoriteCountController, getFavoritesController, getSingleCharacter, getSingleSpellsController, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
+import { addCommentController, addToFavoritesController, createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, deleteFromFavoritesController, getCharacter, getCommentController, getFavoriteCountController, getFavoritesController, getSingleCharacter, getSingleSpellsController, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
 
 import ExpressFormidable from "express-formidable";
 import { requireSignIn } from '../Middleware.js/authMiddleware.js';
@@ -71,6 +71,12 @@ router.get('/getFavoriteCount', requireSignIn, getFavoriteCountController);
 
 // delete favorite
 router.delete('/deleteFavorite/:id', requireSignIn ,deleteFromFavoritesController);
+
+// add comment route
+router.post('/addComment/:id', requireSignIn, addCommentController);
+
+// get Comment route
+router.get('/getComment/:id', getCommentController);
 
 // protected route
 router.get('/protected', requireSignIn, (req, res) => {

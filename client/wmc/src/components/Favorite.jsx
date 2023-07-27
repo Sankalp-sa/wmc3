@@ -98,7 +98,7 @@ export default function Favorite() {
                 {Favorites?.characters.map((ch) => {
                   return (
                     <>
-                      <div className="col-md-6">
+                      <div className="col-md-6 d-flex align-items-center justify-content-center ">
                         <div className="card mb-3" style={{ width: "18rem" }}>
                           <img src={ch?.imageUrl} className="card-img-top" alt="..." />
                           <div className="card-body">
