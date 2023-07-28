@@ -17,6 +17,7 @@ import Search from './components/Search';
 import Favorite from './components/Favorite';
 import PrivateRoute from './Routes/Private';
 import SpellsDetails from './components/Details/SpellsDetails';
+import HouseQuize from './components/Quizs/HouseQuize';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/spells/:id" element={<SpellsDetails />} />
         <Route path="/wands" element={<Wand />} />
         <Route path="/wand/:id" element={<WandDetail />} />
+        <Route path="/houseQuiz" element={<HouseQuize />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search/:keyword" element={<Search />} />
