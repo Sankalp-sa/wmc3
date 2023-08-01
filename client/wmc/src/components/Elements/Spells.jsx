@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar';
-import Sidebar from '../Sidebar';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../contexts/auth';

@@ -84,11 +84,10 @@ export default function CreateWand() {
 
             formData.append('owner', owner);
             formData.append('description', wandDis);
-            formData.append('image_url', wandImg);
+            formData.append('wandImage', wandImg);
             formData.append('wood', woodId);
             formData.append('core', coreId);
             formData.append('length', length);
-
 
             const res = await axios.post(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/createWand`, 
                 formData
@@ -152,7 +151,7 @@ export default function CreateWand() {
                 <form onSubmit={handleWandSubmit}>
                     <input type="text" placeholder='owner' onChange={e => setOwner(e.target.value)} />
                     <input type="text" placeholder='description' onChange={e => setWandDis(e.target.value)} />
-                    <input type="file" onChange={e => setWandImg(e.target.files[0])} />
+                    <input type="file" onChange={(e) => setWandImg(e.target.files[0])} />
                     <input type="text" placeholder='wood' onChange={e => setWoodId(e.target.value)} />
                     <input type="text" placeholder='core' onChange={e => setCoreId(e.target.value)} />
                     <input type="text" placeholder='length' onChange={e => setLength(e.target.value)} />

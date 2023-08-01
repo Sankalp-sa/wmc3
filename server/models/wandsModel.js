@@ -6,7 +6,7 @@ const wandSchema = new mongoose.Schema(
         owner: { type: String, required: true },
         description: { type: String, required: true },
         image_url: { type: String },
-        wandImage: {
+        wandImage:{
             data: Buffer,
             contentType: String
         },

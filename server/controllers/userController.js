@@ -319,8 +319,14 @@ export const createWandController = async (req, res) => {
       wood,
       core,
       length,
-      wandImage
-    }).save();
+    });
+
+    if (wandImage) {
+      newWand.wandImage.data = fs.readFileSync(wandImage.path);
+      newWand.wandImage.contentType = wandImage.type;
+    }
+
+    await newWand.save();
 
     res.status(201).send({
       success: true,
@@ -328,7 +334,8 @@ export const createWandController = async (req, res) => {
       data: newWand,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error creating wand" });
+    console.log(error)
+    res.status(500).json({ error, message: "Error creating wand" });
   }
 };
 

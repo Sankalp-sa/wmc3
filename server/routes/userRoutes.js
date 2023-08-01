@@ -43,7 +43,7 @@ router.post('/createWood', ExpressFormidable() ,createWoodController);
 router.post('/createCore', ExpressFormidable() ,createCoreController);
 
 // create wand
-router.post('/createWand', ExpressFormidable(),createWandController);
+router.post('/createWand', ExpressFormidable(), createWandController);
 
 // get Wand
 router.get('/getWands', getWandsController);

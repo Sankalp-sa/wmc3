@@ -63,8 +63,8 @@ export default function Wand() {
     return (
         <div>
             <Navbar />
-            <div className="col-md-10 text-light">
-                <h1 className='mb-5'>Wands</h1>
+            <div className="text-light d-flex align-items-center justify-content-center flex-column">
+                <h1 className='my-5 title text-center pt-5'>Wands</h1>
                 {/* Display books in form of cards */}
                 {/* <div className="row">
                     {wand.map((w) => (
@@ -91,7 +91,7 @@ export default function Wand() {
                     {loading ? <Spinner /> : wand?.map((w) => (
                         <Link to='#' style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
                             <div key={w._id} class="container mb-5">
-                                <div class="thecard d-flex align-items-center justify-content-center mb-5">
+                                <div class="d-flex align-items-center justify-content-center mb-5">
                                     <div class="thefront skeleton d-flex align-items-center justify-content-center">
                                         <img className='img-front' src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/wandImage/${w._id}`} />
                                     </div>
