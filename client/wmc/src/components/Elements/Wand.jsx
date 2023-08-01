@@ -64,7 +64,7 @@ export default function Wand() {
         <div>
             <Navbar />
             <div className="text-light d-flex align-items-center justify-content-center flex-column">
-                <h1 className='my-5 title text-center pt-5'>Wands</h1>
+                <h1 className='my-3 title text-center pt-5'>Wands</h1>
                 {/* Display books in form of cards */}
                 {/* <div className="row">
                     {wand.map((w) => (

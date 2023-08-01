@@ -256,9 +256,8 @@ bgvideo {
 .dialog-div{
     font-size: large;
     padding: 0 17%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 1rem;
+    display: flex;
+
     align-items: center;
     justify-content: center;
 }
@@ -277,4 +276,14 @@ bgvideo {
     font-size: 3rem;
     font-family: 'Playfair Display', serif;
     color: aliceblue;
+}
+
+/* font 1 */
+  .font1{
+    font-family: 'Elsie Swash Caps', cursive;
+}
+
+.font2{
+      font-family: 'Playfair Display', serif;
+    
   }

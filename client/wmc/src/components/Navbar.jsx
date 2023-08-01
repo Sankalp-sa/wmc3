@@ -149,23 +149,23 @@ export default function Navbar() {
         style={{opacity: "0.9"}}
       >
         <div className=' h-100 w-100'>
-          <div className="container-fluid dialog-div vertical-center">
-            <Link to="/species" className="nav-link py-3">
+          <div className="container-fluid dialog-div vertical-center fs-2 font2 flex-column">
+            <Link to="/species" className="nav-link py-3 px-2">
               Species
             </Link>
-            <Link to="/books" className="nav-link py-3 ">
+            <Link to="/books" className="nav-link py-3 px-2">
               Books
             </Link>
-            <Link to="/characters" className="nav-link py-3 ">
+            <Link to="/characters" className="nav-link py-3 px-2">
               Characters
             </Link>
-            <Link to="/spells" className="nav-link py-3 ">
+            <Link to="/spells" className="nav-link py-3 px-2">
               Spells
             </Link>
-            <Link to="/houses" className="nav-link py-3 ">
+            <Link to="/houses" className="nav-link py-3 px-2">
               Houses
             </Link>
-            <Link to="/wands" className="nav-link py-3 ">
+            <Link to="/wands" className="nav-link py-3 px-2">
               Wands
             </Link>
             <IconButton color="primary" aria-label="add to shopping cart" onClick={handleClose}>
