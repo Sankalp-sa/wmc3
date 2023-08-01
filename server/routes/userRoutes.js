@@ -1,5 +1,5 @@
 import express from 'express';
-import { addCommentController, addToFavoritesController, createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, deleteFromFavoritesController, getCharacter, getCommentController, getFavoriteCountController, getFavoritesController, getSingleCharacter, getSingleSpellsController, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
+import { addCommentController, addToFavoritesController, createCharacterController, createCoreController, createSpeciesController, createSpellsController, createWandController, createWoodController, deleteFromFavoritesController, getCharacter, getCommentController, getFavoriteCountController, getFavoritesController, getImageBack, getImageFront, getSingleCharacter, getSingleSpellsController, getSingleWandController, getSpeciesController, getSpellAudioController, getSpellsController, getWandImageController, getWandsController, loginController, registrationController, searchController } from '../controllers/userController.js';
 
 import ExpressFormidable from "express-formidable";
 import { requireSignIn } from '../Middleware.js/authMiddleware.js';
@@ -48,8 +48,20 @@ router.post('/createWand', ExpressFormidable(),createWandController);
 // get Wand
 router.get('/getWands', getWandsController);
 
+// get wand image
+router.get('/wandImage/:id', getWandImageController);
+
 // get single wand
 router.get('/getWand/:id', getSingleWandController);
+
+// create character
+router.post('/createCharacter', ExpressFormidable(), createCharacterController);
+
+// get character Image Front
+router.get('/character/:id/imageFront', getImageFront);
+
+// get character Image Back
+router.get('/character/:id/imageBack', getImageBack);
 
 // get characters
 router.get('/getCharacter', getCharacter);

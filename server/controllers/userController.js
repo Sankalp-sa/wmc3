@@ -2,12 +2,13 @@ import { comparePassword, hashPassword } from "../helper/helper.js";
 import SpeciesModel from "../models/speciesModel.js";
 import userModel from "../models/userModel.js";
 import spellsModel from "../models/spellsModel.js";
-import characterModel from "../models/characterModel.js";
+// import characterModel from "../models/characterModel.js";
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import { coreModel, wandsModel, woodModel } from "../models/wandsModel.js";
 import FavoriteModel from "../models/favoriteModel.js";
 import CommentModel from "../models/CommentModel.js";
+import newCharacterModel from "../models/newCharacterModel.js";
 
 // registration controller
 
@@ -265,7 +266,7 @@ export const createWoodController = async (req, res) => {
     const newWood = await woodModel({
       name,
       description,
-      image_url,
+      // image_url,
       binomialName,
     }).save();
 
@@ -277,7 +278,7 @@ export const createWoodController = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error creating wood" });
-  }
+  } 
 };
 
 // Create core controller
@@ -306,15 +307,19 @@ export const createCoreController = async (req, res) => {
 
 export const createWandController = async (req, res) => {
   try {
-    const { owner, description, image_url, wood, core, length } = req.fields;
+    const { owner, description, wood, core, length } = req.fields;
+
+    const { wandImage } = req.files;
+
+    console.log(req.files);
 
     const newWand = await wandsModel({
       owner,
       description,
-      image_url,
       wood,
       core,
       length,
+      wandImage
     }).save();
 
     res.status(201).send({
@@ -343,6 +348,36 @@ export const getWandsController = async (req, res) => {
   }
 };
 
+// get wand image controller
+
+export const getWandImageController = async (req, res) => {
+
+  try{
+
+    const { id } = req.params;
+
+    const wand = await wandsModel.findById(id);
+
+    console.log(wand);
+
+    if(wand.wandImage.data){
+      res.set("Content-Type", wand.wandImage.contentType);
+      return res.send(wand.wandImage.data);
+    }
+    else{
+      res.status(404).send({
+        success: false,
+        message: "Image not found",
+      });
+    }
+    
+  }
+  catch(error){
+    res.status(500).json({ message: "Error fetching wand image" });
+  }
+}
+
+
 // get single wand controller
 
 export const getSingleWandController = async (req, res) => {
@@ -365,13 +400,106 @@ export const getSingleWandController = async (req, res) => {
   }
 };
 
+// create character controller:
+
+export const createCharacterController = async (req, res) => {
+  try {
+    const {
+      name,
+      house,
+      description,
+      // wandId,
+      bloodStatus,
+      patronus
+    } = req.fields;
+
+    const { imageBack, imageFront } = req.files;
+
+    const character = new newCharacterModel({
+      name,
+      house,
+      description,
+      // wand: wandId,
+      bloodStatus,
+      patronus
+    });
+
+    if (imageBack) {
+      character.imageBack.data = fs.readFileSync(imageBack.path);
+      character.imageBack.contentType = imageBack.type;
+    }
+
+    if (imageFront) {
+      character.imageFront.data = fs.readFileSync(imageFront.path);
+      character.imageFront.contentType = imageFront.type;
+    }
+
+    await character.save();
+
+    res.status(201).send({
+      success: true,
+      message: "Character created successfully",
+      data: character,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error creating character" });
+  }
+};
+
+// getImage Front controller
+export const getImageFront = async (req, res) => {
+  try{
+    const { id } = req.params;
+
+    const character = await newCharacterModel.findById(id);
+
+    if (character.imageFront.data) {
+      res.set("Content-Type", character.imageFront.contentType);
+      return res.send(character.imageFront.data);
+    }
+
+    res.status(404).send({
+      success: false,
+      message: "Image not found",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching image" });
+  }
+}
+
+export const getImageBack = async (req, res) => {
+  try{
+    const { id } = req.params;
+
+    const character = await newCharacterModel.findById(id);
+
+    if (character.imageBack.data) {
+      res.set("Content-Type", character.imageBack.contentType);
+      return res.send(character.imageBack.data);
+    }
+
+    res.status(404).send({
+      success: false,
+      message: "Audio not found",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching image" });
+  }
+}
+
+
+
 // getAll characters controller
 export const getCharacter = async (req, res) => {
   try {
     const page = req.query.page || 1;
     const pageSize = req.query.pageSize || 4;
 
-    const characters = await characterModel
+    const characters = await newCharacterModel
       .find({})
       .skip((page - 1) * pageSize)
       .limit(pageSize);
@@ -393,7 +521,7 @@ export const getSingleCharacter = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const character = await characterModel.findById(id);
+    const character = await newCharacterModel.findById(id);
 
     res.status(200).send({
       success: true,
@@ -412,7 +540,7 @@ export const searchController = async (req, res) => {
   try {
     const { keyword } = req.params;
 
-    const character = await characterModel.find({
+    const character = await newCharacterModel.find({
       $or: [
         { name: { $regex: keyword, $options: "i" } },
         { description: { $regex: keyword, $options: "i" } },
@@ -470,7 +598,7 @@ export const addToFavoritesController = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const character = await characterModel.findById(id);
+    const character = await newCharacterModel.findById(id);
     const species = await SpeciesModel.findById(id);
     const wand = await wandsModel.findById(id);
     const spell = await spellsModel.findById(id);
@@ -716,6 +844,8 @@ export const getFavoriteCountController = async (req, res) => {
   try {
     const favorite = await FavoriteModel.findOne({ user: req.user._id });
 
+    // console.log(favorite)
+
     const favoriteCount =
       favorite.characters.length +
       favorite.species.length +
@@ -736,20 +866,18 @@ export const getFavoriteCountController = async (req, res) => {
 // Add comment controller
 
 export const addCommentController = async (req, res) => {
-  
   try {
-
     const { id } = req.params;
     // console.log(req.body)
     const { comment } = req.body;
 
-    const species = await SpeciesModel.countDocuments({_id: id});
-    const wand = await wandsModel.countDocuments({_id: id});
-    const spell = await spellsModel.countDocuments({_id: id});
-    const character = await characterModel.countDocuments({_id: id});
+    const species = await SpeciesModel.countDocuments({ _id: id });
+    const wand = await wandsModel.countDocuments({ _id: id });
+    const spell = await spellsModel.countDocuments({ _id: id });
+    const character = await newCharacterModel.countDocuments({ _id: id });
 
     // console.log(species);
-    
+
     let newComment = null;
     if (species > 0) {
       newComment = await CommentModel({
@@ -757,22 +885,19 @@ export const addCommentController = async (req, res) => {
         species: id,
         comment,
       }).save();
-    }
-    else if (wand > 0) {
+    } else if (wand > 0) {
       newComment = await CommentModel({
         user: req.user._id,
         wand: id,
         comment,
       }).save();
-    }
-    else if (spell > 0) {
+    } else if (spell > 0) {
       newComment = await CommentModel({
         user: req.user._id,
         spell: id,
         comment,
       }).save();
-    }
-    else if (character > 0) {
+    } else if (character > 0) {
       newComment = await CommentModel({
         user: req.user._id,
         character: id,
@@ -780,21 +905,18 @@ export const addCommentController = async (req, res) => {
       }).save();
     }
 
-    if(newComment){
+    if (newComment) {
       res.status(201).send({
         success: true,
         message: "Comment added successfully",
         data: newComment,
       });
-    }
-    else{
+    } else {
       res.status(500).send({
         success: false,
         message: "Error adding comment",
       });
     }
-
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error adding comment", error });
@@ -804,7 +926,6 @@ export const addCommentController = async (req, res) => {
 // get comment controller
 
 export const getCommentController = async (req, res) => {
-
   const { id } = req.params;
 
   try {
@@ -814,7 +935,9 @@ export const getCommentController = async (req, res) => {
 
     const spell = await CommentModel.find({ spell: id }).populate("user");
 
-    const character = await CommentModel.find({ character: id }).populate("user");
+    const character = await CommentModel.find({ character: id }).populate(
+      "user"
+    );
 
     res.status(200).send({
       success: true,
@@ -823,11 +946,11 @@ export const getCommentController = async (req, res) => {
         species,
         wand,
         spell,
-        character
-      }
+        character,
+      },
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error fetching comments" });
   }
-}
+};

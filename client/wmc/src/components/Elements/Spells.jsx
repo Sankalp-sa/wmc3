@@ -55,10 +55,6 @@ export default function Spells() {
     return (
         <div>
             <Navbar />
-            <div className='row'>
-                <div className="col-md-2">
-                    <Sidebar />
-                </div>
                 <div className="col-md-10 text-light">
                     <h1 className='mb-5'>Spells</h1>
                     <div className='row gap-3'>
@@ -87,6 +83,5 @@ export default function Spells() {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }

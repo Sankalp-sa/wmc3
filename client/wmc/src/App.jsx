@@ -18,12 +18,16 @@ import Favorite from './components/Favorite';
 import PrivateRoute from './Routes/Private';
 import SpellsDetails from './components/Details/SpellsDetails';
 import HouseQuize from './components/Quizs/HouseQuize';
+import CreateCharacter from './components/Admin/CreateCharacter';
+import CreateWand from './components/Admin/createWand';
 
 function App() {
 
   return (
     <div onMouseMove={all_data.myfun00()}>
       <Routes>
+        <Route path="/createCharacter" element={<CreateCharacter />} />
+        <Route path="/createWand" element={<CreateWand />} />
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/books" element={<Books />} />

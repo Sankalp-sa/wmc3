@@ -13,7 +13,7 @@ const FavoriteSchema = new Schema({
     }],
     characters : [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'characters'
+        ref: 'newCharacters'
     }],
     species : [{
         type: mongoose.Schema.Types.ObjectId,

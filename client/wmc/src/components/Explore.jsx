@@ -6,7 +6,6 @@ export default function Explore() {
   return (
     <>
       <Navbar />
-      <Sidebar />
     </>
   )
 }

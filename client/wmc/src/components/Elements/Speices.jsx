@@ -55,11 +55,7 @@ export default function Species() {
     return (
         <div>
             <Navbar />
-            <div className='row'>
-                <div className="col-md-2">
-                    <Sidebar />
-                </div>
-                <div className="col-md-10 text-light">
+                <div className="text-light">
                     <h1 className='mb-5'>Speices</h1>
                     {/* Display books in form of cards */}
                     <div className="row">
@@ -81,6 +77,5 @@ export default function Species() {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }

@@ -50,7 +50,15 @@ bgvideo {
     align-items: center;
     justify-content: center;
     /* position: fixed; */
+    background-color: rgb(39, 38, 38);
     width: 100%;
+}
+
+.navbar{
+    background: linear-gradient(rgb(0, 0, 0), rgb(0, 17, 44));
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-size: cover;
 }
 
 .navlist {
@@ -58,17 +66,17 @@ bgvideo {
     align-items: center;
     list-style: none;
     width: 100%;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 }
 
 .navlist li {
-    padding-inline: 33px;
+    padding-inline: 1rem;
 }
 
 .navlist a {
     text-decoration: none;
     color: aliceblue;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-family: 'Elsie Swash Caps', cursive;
 }
 
@@ -184,3 +192,89 @@ bgvideo {
     display: flex;
     font-family: 'Elsie Swash Caps', cursive;
 }
+
+/* card flip css */
+
+.thecard{
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+}
+
+.thecard:hover{
+    transform: rotateY(180deg);
+}
+
+.thefront{
+    /* width: 100%;
+    height: 100%; */
+    width: 274px;
+    height: 432px; 
+    border-radius: 10px;
+    /* position: absolute;  */
+    backface-visibility: hidden;
+}
+
+.theback{
+    position: absolute;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+}
+
+/* Add to favorite button and more details  */
+
+.ch-btn {
+    text-decoration: none;
+    color: aliceblue;
+    font-size: 1.1rem;
+    font-family: 'Elsie Swash Caps', cursive;
+}
+
+.ch-btn:hover{
+    color: yellow;
+    text-shadow: 0 0 11px yellow;
+    cursor: none;
+}
+
+/* skeleton */
+
+.skeleton{
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading{
+    0%{
+        background: hsl(200, 3%, 17%);
+    }
+    100%{
+        background: hsl(0, 0%, 9%);
+    }
+}
+
+/* Explore dialog screen div */
+
+.dialog-div{
+    font-size: large;
+    padding: 0 17%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  /* Title  */
+
+  .title {
+    font-size: 3rem;
+    font-family: 'Playfair Display', serif;
+    color: aliceblue;
+  }

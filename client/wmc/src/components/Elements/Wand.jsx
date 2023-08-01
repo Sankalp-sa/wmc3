@@ -1,14 +1,19 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../contexts/auth';
+import Spinner from './Spinner';
+import StarIcon from '@mui/icons-material/Star';
+
 
 export default function Wand() {
 
     const [wand, setWand] = useState([]);
+
+    const [loading, setLoading] = useState(true);
 
     const { auth } = useAuth();
 
@@ -19,6 +24,7 @@ export default function Wand() {
 
             console.log(res.data);
             setWand(res.data.wands);
+            setLoading(false);
 
         } catch (error) {
             console.log(error);
@@ -31,24 +37,24 @@ export default function Wand() {
     }, [])
 
     const handleFavorite = async (id) => {
-        try{
-            if(auth){
+        try {
+            if (auth) {
                 const res = await axios.post(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/addFavorite/${id}`);
 
-                if(res.data.success === true){
+                if (res.data.success === true) {
                     toast.success("Added to Favorite!");
                 }
-                
-                if(res.data.success === false){
+
+                if (res.data.success === false) {
                     toast.error("Already in Favorite!");
                 }
             }
-            else{
+            else {
                 toast.error("Please login first!");
             }
-            
+
         }
-        catch(error){
+        catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
         }
@@ -57,16 +63,12 @@ export default function Wand() {
     return (
         <div>
             <Navbar />
-            <div className='row'>
-                <div className="col-md-2">
-                    <Sidebar />
-                </div>
-                <div className="col-md-10 text-light">
-                    <h1 className='mb-5'>Wands</h1>
-                    {/* Display books in form of cards */}
-                    <div className="row">
-                        {wand.map((w) => (
-                        <Link to={`/wand/${w._id}`} style={{textDecoration: "none"}} className='col-md-4 mb-5'>
+            <div className="col-md-10 text-light">
+                <h1 className='mb-5'>Wands</h1>
+                {/* Display books in form of cards */}
+                {/* <div className="row">
+                    {wand.map((w) => (
+                        <Link to={`/wand/${w._id}`} style={{ textDecoration: "none" }} className='col-md-4 mb-5'>
                             <div key={w._id} >
                                 <div className="card" style={{ width: '20rem' }}>
                                     <img src={w.image_url} className="card-img-top" />
@@ -82,11 +84,29 @@ export default function Wand() {
                                 </div>
                             </div>
                         </Link>
-                        ))}
-                    </div>
+                    ))}
+                </div> */}
+
+                <div className="row" style={{ padding: "5% 12%" }}>
+                    {loading ? <Spinner /> : wand?.map((w) => (
+                        <Link to='#' style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
+                            <div key={w._id} class="container mb-5">
+                                <div class="thecard d-flex align-items-center justify-content-center mb-5">
+                                    <div class="thefront skeleton d-flex align-items-center justify-content-center">
+                                        <img className='img-front' src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/wandImage/${w._id}`} />
+                                    </div>
+                                </div>
+                                <div className='d-flex flex-row align-items-center justify-content-center'>
+                                    <Link className="ch-btn" onClick={() => handleFavorite(w._id)}>Add to  <StarIcon /></Link>
+                                    <Link className="ch-btn ms-5" to={`/wand/${w._id}`}>View Details</Link>
+                                </div>
+                            </div>
+                        </Link>
+                    )
+                    )}
                 </div>
             </div>
-
         </div>
+
     )
 }

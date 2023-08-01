@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const CharacterSchema = new mongoose.Schema({
+const newCharacterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -15,9 +15,8 @@ const CharacterSchema = new mongoose.Schema({
     type: String,
   },
   wand: {
-    core: String,
-    wood: String,
-    length: Number
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'wands'
   },
   patronus: String,
   skills: [String],
@@ -37,6 +36,6 @@ const CharacterSchema = new mongoose.Schema({
   },
 });
 
-const characterModel = mongoose.model('characters', CharacterSchema);
+const newCharacterModel = mongoose.model('newCharacters', newCharacterSchema);
 
-export default characterModel;
+export default newCharacterModel;
