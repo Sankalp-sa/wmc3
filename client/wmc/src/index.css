@@ -280,10 +280,10 @@ bgvideo {
 
 /* font 1 */
   .font1{
-    font-family: 'Elsie Swash Caps', cursive;
+    font-family: 'Elsie Swash Caps', cursive !important;
 }
 
 .font2{
-      font-family: 'Playfair Display', serif;
+      font-family: 'Playfair Display', serif !important;
     
   }

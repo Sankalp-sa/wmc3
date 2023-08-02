@@ -66,10 +66,10 @@ export default function Characters() {
             <div className="row">
                 <h1 className='my-5 text-center title'>Characters</h1>
                 {/* Display books in form of cards */}
-                <div className="row" style={{padding: "5% 12%"}}>
+                <div className="row d-flex align-items-center justify-content-center" style={{padding: "3% 12%"}}>
                     {loading ? <Spinner/> : characters?.map((ch) => (
-                        <Link to='#' style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
-                            <div key={ch._id} class="container mb-5">
+                        <Link to={`/characters/${ch._id}`} style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
+                            <div key={ch._id} class="container mb-1">
                                 <div class="thecard d-flex align-items-center justify-content-center mb-5">
                                     <div class="thefront skeleton d-flex align-items-center justify-content-center">
                                         <img className='img-front' src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/character/${ch._id}/imageFront`} />
@@ -90,7 +90,7 @@ export default function Characters() {
 
             </div>
             {/* Pagination */}
-            <div className='d-flex align-items-start justify-content-start fs-3'>
+            <div className='d-flex align-items-center justify-content-center fs-3'>
                 <ul className="pagination justify-content-center">
                     <li className="page-item">
                         <button className="page-link" href="#" onClick={() => setPage(page - 1)} aria-label="Previous"
