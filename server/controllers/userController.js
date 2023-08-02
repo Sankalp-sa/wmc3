@@ -630,7 +630,7 @@ export const addToFavoritesController = async (req, res) => {
       );
 
       if (isCharacter || isSpecies || isWand || isSpell) {
-        res.status(500).send({
+        res.status(200).send({
           success: false,
           message: "Already added to favorites",
         });

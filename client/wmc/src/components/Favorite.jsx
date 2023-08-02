@@ -98,23 +98,24 @@ export default function Favorite() {
             <CustomTabPanel value={value} index={0}>
               <h1 className="py-5 mb-3 title ">Favorite Characters</h1>
               <div className="row">
-              {loading ? <Spinner/> : Favorites.characters?.map((ch) => (
-                        <Link to={`/characters/${ch._id}`} style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
-                            <div key={ch._id} class="container mb-5">
-                                <div class="thecard d-flex align-items-center justify-content-center mb-5">
-                                    <div class="thefront skeleton d-flex align-items-center justify-content-center">
-                                        <img className='img-front' src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/character/${ch._id}/imageFront`} />
-                                    </div>
-                                    <div class="theback">
-                                        <img src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/character/${ch._id}/imageBack`} />
-                                    </div>
-                                </div>
-                                <div className='text-center'>
-                                    <Link className="ch-btn" to={`/characters/${ch._id}`}>View Details</Link>
-                                </div>
-                            </div>
-                        </Link>
-                    )
+                {loading ? <Spinner /> : Favorites.characters?.map((ch) => (
+                  <Link to={`/characters/${ch._id}`} style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
+                    <div key={ch._id} class="container mb-5">
+                      <div class="thecard d-flex align-items-center justify-content-center mb-5">
+                        <div class="thefront skeleton d-flex align-items-center justify-content-center">
+                          <img className='img-front' src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/character/${ch._id}/imageFront`} />
+                        </div>
+                        <div class="theback">
+                          <img src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/character/${ch._id}/imageBack`} />
+                        </div>
+                      </div>
+                      <div className='text-center'>
+                        <Link className="ch-btn" to={`/characters/${ch._id}`}>View Details</Link>
+                        <Link className="ch-btn ms-5" onClick={handleDelete(ch._id)}>Delete</Link>
+                      </div>
+                    </div>
+                  </Link>
+                )
                 )}
               </div>
             </CustomTabPanel>
@@ -171,21 +172,22 @@ export default function Favorite() {
             <CustomTabPanel value={value} index={3}>
               <h1 className="py-5 mb-3 title">Favorite Wands</h1>
               <div className="row d-flex align-items-center justify-content-center">
-              {loading ? <Spinner /> : Favorites?.wand?.map((w) => (
-                        <Link to='#' style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
-                            <div key={w._id} class="container mb-5">
-                                <div class="d-flex align-items-center justify-content-center mb-5">
-                                    <div class="thefront skeleton d-flex align-items-center justify-content-center">
-                                        <img className='img-front' src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/wandImage/${w._id}`} />
-                                    </div>
-                                </div>
-                                <div className='d-flex flex-row align-items-center justify-content-center'>
-                                    <Link className="ch-btn" to={`/wand/${w._id}`}>View Details</Link>
-                                </div>
-                            </div>
-                        </Link>
-                    )
-              )}
+                {loading ? <Spinner /> : Favorites?.wand?.map((w) => (
+                  <Link to='#' style={{ textDecoration: "none" }} className='col-md-6 mb-5'>
+                    <div key={w._id} class="container mb-5">
+                      <div class="d-flex align-items-center justify-content-center mb-5">
+                        <div class="thefront skeleton d-flex align-items-center justify-content-center">
+                          <img className='img-front' src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/wandImage/${w._id}`} />
+                        </div>
+                      </div>
+                      <div className='d-flex flex-row align-items-center justify-content-center'>
+                        <Link className="ch-btn" to={`/wand/${w._id}`}>View Details</Link>
+                        <Link className="ch-btn ms-5" onClick={handleDelete(w._id)}>Delete</Link>
+                      </div>
+                    </div>
+                  </Link>
+                )
+                )}
               </div>
             </CustomTabPanel>
 

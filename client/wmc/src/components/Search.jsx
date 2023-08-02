@@ -5,6 +5,8 @@ import Navbar from './Navbar';
 // import Sidebar from './Sidebar';
 import Spinner from './Elements/Spinner';
 import StarIcon from '@mui/icons-material/Star';
+import { useAuth } from '../contexts/auth';
+import toast from 'react-hot-toast';
 
 export default function Search() {
 
@@ -14,6 +16,8 @@ export default function Search() {
     const [result, setResult] = useState({});
 
     const [loading, setLoading] = useState(true);
+
+    const { auth } = useAuth();
 
     const getSearchResult = async () => {
 
@@ -27,6 +31,30 @@ export default function Search() {
 
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    const handleFavorite = async (id) => {
+        try {
+            if (auth?.user) {
+                const res = await axios.post(`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/addFavorite/${id}`);
+
+                if (res.data.success === true) {
+                    toast.success("Added to Favorite!");
+                }
+
+                if (res.data.success === false) {
+                    toast.error("Already in Favorite!");
+                }
+            }
+            else {
+                toast.error("Please login first!");
+            }
+
+        }
+        catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
         }
     }
 
