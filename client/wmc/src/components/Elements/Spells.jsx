@@ -54,7 +54,7 @@ export default function Spells() {
     return (
         <div>
             <Navbar />
-                <div className="col-md-10 text-light">
+                <div className="text-light">
                     <h1 className='mb-5'>Spells</h1>
                     <div className='row gap-3'>
                         {spells.map((sp) => (

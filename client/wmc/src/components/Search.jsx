@@ -125,30 +125,30 @@ export default function Search() {
                 <h1 className='mb-3 title text-center'>Spells</h1>
                 {result?.spell?.length > 0 ? (
                     <>
-                        <div className='row gap-3'>
-                        {result.spell.map((sp) => (
-                            <Link to={`/spells/${sp._id}`} className="col-md-4 text-decoration-none" >
-                            <div>
-                                <div className="card" style={{ width: '20rem' }}>
-                                    <img src={sp.image_url} className="card-img-top" alt="..." />
-                                    <div className="card-body">
-                                        <h4 className="card-title">{sp.name}</h4>
-                                        <h5 className="card-title">Category : {sp.category}</h5>
-                                        <p className="card-text">{sp.description.substring(1, 100) + "..."}</p>
-                                        <audio controls>
-                                            <source src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/spells/${sp._id}/audio`} type='audio/mp3' />
-                                        </audio>
-                                        <a href="#" className="btn btn-primary">Go somewhere</a>
-                                        <button className="btn btn-primary" onClick={(e) => {
-                                            e.preventDefault();
-                                            handleFavorite(sp._id);
-                                        }}>Add to Favorite</button>
+                        <div className='row gap-3 w-100 d-flex justify-content-center align-items-center py-5'>
+                            {result.spell.map((sp) => (
+                                <Link to={`/spells/${sp._id}`} className="col-md-4 text-decoration-none" >
+                                    <div className='d-flex align-items-center justify-content-center flex-column'>
+                                        <div className="card" style={{ width: '20rem' }}>
+                                            <img src={sp.image_url} className="card-img-top" alt="..." />
+                                            <div className="card-body">
+                                                <h4 className="card-title">{sp.name}</h4>
+                                                <h5 className="card-title">Category : {sp.category}</h5>
+                                                <p className="card-text">{sp.description.substring(1, 100) + "..."}</p>
+                                                <audio controls>
+                                                    <source src={`${import.meta.env.VITE_REACT_API_APP_PORT}/api/v1/users/spells/${sp._id}/audio`} type='audio/mp3' />
+                                                </audio>
+                                                <a href="#" className="btn btn-primary">Go somewhere</a>
+                                                <button className="btn btn-primary" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleFavorite(sp._id);
+                                                }}>Add to Favorite</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            </Link>
-                        ))}
-                    </div>
+                                </Link>
+                            ))}
+                        </div>
                     </>
                 ) : (
                     <h1>No Spell Found</h1>
